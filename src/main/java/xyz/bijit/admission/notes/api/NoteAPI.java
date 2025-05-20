@@ -1,7 +1,10 @@
 package xyz.bijit.admission.notes.api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import xyz.bijit.admission.notes.model.LocalDateTimeAdapter;
+import java.time.LocalDateTime;
 import xyz.bijit.admission.notes.model.Note;
 import xyz.bijit.admission.notes.service.NoteService;
 import xyz.bijit.admission.notes.service.INoteService;
@@ -18,7 +21,9 @@ public class NoteAPI implements WebServerAPI {
 
     public NoteAPI() {
         this.noteService = new NoteService();
-        this.gson = new Gson();
+        this.gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .create();
     }
 
     @Override
