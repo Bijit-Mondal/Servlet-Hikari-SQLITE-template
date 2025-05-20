@@ -1,6 +1,6 @@
 package xyz.bijit.admission;
 
-import xyz.bijit.admission.api.NoteAPI;
+import xyz.bijit.admission.notes.api.NoteAPI;
 import xyz.bijit.admission.server.TomcatServer;
 import xyz.bijit.admission.server.WebServer;
 

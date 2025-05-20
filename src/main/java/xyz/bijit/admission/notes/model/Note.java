@@ -1,4 +1,4 @@
-package xyz.bijit.admission.model;
+package xyz.bijit.admission.notes.model;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +12,11 @@ public class Note {
     }
 
     public Note(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+public Note(Long id, String title, String content) {
+        this.id = id;
         this.title = title;
         this.content = content;
     }

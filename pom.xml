@@ -49,6 +49,13 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Connection Pool -->
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>5.0.1</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -82,6 +89,14 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>xyz.bijit.admission.App</mainClass>
+        </configuration>
       </plugin>
     </plugins>
   </build>
