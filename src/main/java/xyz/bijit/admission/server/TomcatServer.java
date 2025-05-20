@@ -27,12 +27,15 @@ public class TomcatServer implements WebServer {
         tomcat.setPort(PORT);
         tomcat.getConnector();
         
-        String docBase = new File(".").getAbsolutePath();
+        // Get the application's base directory
+        String docBase = new File(System.getProperty("user.dir")).getAbsolutePath();
         Context ctx = tomcat.addContext("", docBase);
         
-        // Add default servlet
-        Tomcat.addServlet(ctx, "default", new DefaultServlet());
-        ctx.addServletMappingDecoded("/", "default");
+        // Set up the class loader to find our classes
+        ctx.setParentClassLoader(Thread.currentThread().getContextClassLoader());
+        
+        // Remove default servlet mapping as we're building an API-only application
+        // If you need to serve static files later, we can add specific mappings for those
     }
 
     @Override
@@ -67,20 +70,21 @@ public class TomcatServer implements WebServer {
         
         // Create servlet
         ApiServlet servlet = new ApiServlet(api);
-        Tomcat.addServlet(ctx, api.getApiPath(), servlet);
+        String servletName = api.getApiPath().replace("/", "_");
+        Tomcat.addServlet(ctx, servletName, servlet);
         
-        // Map servlet to path
-        ctx.addServletMappingDecoded(api.getApiPath(), api.getApiPath());
+        // Map servlet to path with wildcard to handle all HTTP methods
+        ctx.addServletMappingDecoded(api.getApiPath() + "/*", servletName);
         
         // Add CORS filter
         FilterDef corsFilter = new FilterDef();
         corsFilter.setFilterName("CORSFilter");
-        corsFilter.setFilterClass("xyz.bijit.admission.filter.CORSFilter");
+        corsFilter.setFilter(new xyz.bijit.admission.filter.CORSFilter());
         ctx.addFilterDef(corsFilter);
         
         FilterMap filterMap = new FilterMap();
         filterMap.setFilterName("CORSFilter");
-        filterMap.addURLPattern(api.getApiPath());
+        filterMap.addURLPattern(api.getApiPath() + "/*");
         ctx.addFilterMap(filterMap);
     }
 } 
