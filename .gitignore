@@ -1,0 +1,33 @@
+# Maven build artifacts
+target/
+dependency-reduced-pom.xml
+
+# IDE files (IntelliJ IDEA, Eclipse, NetBeans, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.classpath
+.project
+.factorypath
+.vscode/
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# SQLite database files
+*.db
+*.db-journal
+
+# Other common files
+*.swp
+*.swo
+*~
