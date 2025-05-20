@@ -1,5 +1,5 @@
 # Build stage
-FROM azul/zulu-openjdk-alpine:11-jdk AS builder
+FROM azul/zulu-openjdk-alpine:16-jdk AS builder
 
 # Install Maven
 RUN apk add --no-cache maven
@@ -20,7 +20,7 @@ COPY src ./src
 RUN mvn clean package
 
 # Runtime stage
-FROM azul/zulu-openjdk-alpine:11-jre-headless
+FROM azul/zulu-openjdk-alpine:16-jre-headless
 
 # Create a non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
