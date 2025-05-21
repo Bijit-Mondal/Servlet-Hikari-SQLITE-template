@@ -9,12 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseManager {
-    private static DatabaseManager instance;
+public class DatabaseManager implements AutoCloseable {
     private final HikariDataSource dataSource;
     private final List<String> schemaStatements;
 
-    private DatabaseManager() {
+    public DatabaseManager() {
         this.schemaStatements = new ArrayList<>();
         initializeSchemaStatements();
         this.dataSource = initializeDataSource();
@@ -39,13 +38,6 @@ public class DatabaseManager {
         return new HikariDataSource(config);
     }
 
-    public static synchronized DatabaseManager getInstance() {
-        if (instance == null) {
-            instance = new DatabaseManager();
-        }
-        return instance;
-    }
-
     private void createSchema() {
         try (Connection conn = getConnection();
             Statement stmt = conn.createStatement()) {
@@ -62,6 +54,7 @@ public class DatabaseManager {
         return dataSource.getConnection();
     }
 
+    @Override
     public void close() {
         if (dataSource != null && !dataSource.isClosed()) {
             dataSource.close();
