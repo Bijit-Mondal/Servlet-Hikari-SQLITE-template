@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import xyz.bijit.admission.notes.model.LocalDateTimeAdapter;
+import xyz.bijit.admission.di.Container;
 import java.time.LocalDateTime;
 import xyz.bijit.admission.notes.model.Note;
-import xyz.bijit.admission.notes.service.NoteService;
 import xyz.bijit.admission.notes.service.INoteService;
 import xyz.bijit.admission.server.WebServerAPI;
 
@@ -20,7 +20,7 @@ public class NoteAPI implements WebServerAPI {
     private final Gson gson;
 
     public NoteAPI() {
-        this.noteService = new NoteService();
+        this.noteService = Container.getInstance().getService(INoteService.class);
         this.gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .create();

@@ -12,8 +12,8 @@ import java.util.List;
 public class NoteService implements INoteService {
     private final DatabaseManager dbManager;
 
-    public NoteService() {
-        this.dbManager = DatabaseManager.getInstance();
+    public NoteService(DatabaseManager dbManager) {
+        this.dbManager = dbManager;
     }
 
     @Override
